@@ -14,9 +14,7 @@
         align-self: stretch;
         & > * {
             flex: 1 0 auto;
-            &:not(:last-child){
-                margin-right: 5rem;
-            }
+            margin-right: 5rem;
         }
     }
     .player__btn {
