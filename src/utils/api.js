@@ -8,3 +8,15 @@ export const fetchRepos = (lang) => {
             return data.items
         })
 }
+
+
+export const fetchUser = (user) => {
+    const endpoint = window.encodeURI(`https://api.github.com/search/users?q=${user}&sort=followers`)
+
+    return fetch(endpoint, {mode: "cors"})
+        .then(res => res.json())
+        .then(data => {
+            if(!data.items) throw new Error('Error fetching users ' + data.message)
+            return data.items
+        })
+}
