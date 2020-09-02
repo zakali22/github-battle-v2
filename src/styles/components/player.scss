@@ -10,11 +10,16 @@
     .player__listing {
         display: flex;
         justify-content: space-between;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         align-self: stretch;
         & > * {
             flex: 1 0 auto;
             margin-right: 5rem;
+            min-width: calc(50% - 5rem)
+        }
+
+        @media(max-width: 767px){
+            flex-wrap: wrap;
         }
     }
     .player__btn {

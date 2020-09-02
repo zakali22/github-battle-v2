@@ -5,18 +5,19 @@ export const fetchRepos = (lang) => {
         .then(res => res.json())
         .then(data => {
             if(!data.items) throw new Error('Error fetching ' + data.message)
+            console.log(data.items)
             return data.items
         })
 }
 
 
-export const fetchUser = (user) => {
-    const endpoint = window.encodeURI(`https://api.github.com/search/users?q=${user}&sort=followers`)
+const fetchUser = (username) => {
+    const endpoint = window.encodeURI(`https://api.github.com/users/${username}`)
 
     return fetch(endpoint, {mode: "cors"})
         .then(res => res.json())
         .then(data => {
-            if(!data.items) throw new Error('Error fetching users ' + data.message)
-            return data.items
+            if(data.message === 'Not Found') throw new Error('Error ' + data.message)
+            return data
         })
 }

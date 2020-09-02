@@ -13,9 +13,18 @@
             @media(max-width: 992px){
                 justify-content: flex-start;
             }
+            @media(max-width: 630px){
+                justify-content: center;
+            }
             .battle__instruction-listing-item {
                 &:not(:last-of-type){
                     margin-right: 10rem;
+                    @media(max-width: 1030px){
+                        margin-right: 5rem;
+                    }
+                }
+                @media(max-width: 630px){
+                    margin-right: 5rem;
                 }
                 h4 {
                     text-align: center;
