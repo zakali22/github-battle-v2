@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import PlayerInput from "./PlayerInput"
 import PlayerReview from "./PlayerReview"
 import {fetchUser} from "../../utils/api"
@@ -11,7 +12,8 @@ class Player extends React.Component {
                 playerOne: null,
                 playerTwo: null
             },
-            error: ''
+            error: '',
+            battle: false
         }
         this.handlePlayerSubmission = this.handlePlayerSubmission.bind(this)
         this.handleUserClearing = this.handleUserClearing.bind(this)
@@ -43,10 +45,14 @@ class Player extends React.Component {
                     {this.state.players['playerOne'] ? <PlayerReview clearUser={() => this.handleUserClearing('playerOne')} username={this.state.players['playerOne']}/> : <PlayerInput label="Player One" submitPlayer={(username) => this.handlePlayerSubmission(username, "playerOne")}/>}
                     {this.state.players['playerTwo'] ? <PlayerReview clearUser={() => this.handleUserClearing('playerTwo')} username={this.state.players['playerTwo']} /> : <PlayerInput label="Player Two" submitPlayer={(username) => this.handlePlayerSubmission(username, "playerTwo")} />}
                 </div>
-                {this.state.players.playerOne && this.state.players.playerTwo ? <button className="player__btn btn btn--primary">Battle</button> : null}
+                {this.state.players.playerOne && this.state.players.playerTwo && <button onClick={() => this.props.handleBattle(this.state.players)} className="player__btn btn btn--primary">Battle</button>}
             </div>
         )
     }
+}
+
+Player.propTypes = {
+    handleBattle: PropTypes.func.isRequired
 }
 
 export default Player
