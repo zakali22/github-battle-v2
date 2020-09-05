@@ -10,9 +10,9 @@ const BattleResults = ({players, resetPlayerBattle}) => {
                 {Object.keys(players).map((player, i) => {
                     return (
                         <div className="battle-result__player" key={i}>
-                            <h3>Winner</h3>
+                            <h3>{i === 0 ? 'Winner' : 'Loser'}</h3>
                             <img src={`https://github.com/${players[player].login}.png?size=160`} alt="Player" />
-                            <p className="battle-result__player-score">Score: 1,300</p>
+                            <p className="battle-result__player-score">Score: {players[player].score}</p>
                             <a href={players[player].html_url} target="_blank" className="h3 battle-result__player-username">{players[player].login}</a>
                             <div className="battle-result__listing">
                                 <div className="battle-result__listing-item">

@@ -21,6 +21,18 @@ const fetchUserRepos = (username) => {
         })
 }
 
+// Get repos stars
+const getTotalReposStars = (repos) => {
+    return repos.reduce((accumulator, repo) => {
+        return accumulator + repo.stargazers_count
+    }, 0)
+}
+
+// Calculate score 
+const calculateScore = (followers, repos) => {
+    return (followers * 3) + getTotalReposStars(repos)
+}
+
 
 // User fetching
 const fetchUserProfile = (username) => {
@@ -39,9 +51,17 @@ const getUserData = (username) => {
         .then(([profile, repos]) => {
             return {
                 ...profile, 
-                repos
+                repos,
+                score: calculateScore(profile.followers, repos)
             }
         })
+}
+
+// Sort players and put winner first
+const sortPlayers = players => {
+    return players.sort((a, b) => {
+        return b.score - a.score // In ascending order
+    })
 }
 
 // Battle function
@@ -49,6 +69,6 @@ export const initBattle = (players) => {
     const {playerOne, playerTwo} = players;
     return Promise.all([getUserData(playerOne), getUserData(playerTwo)])
         .then(res => {
-            return res
+            return sortPlayers(res)
         })
 }
