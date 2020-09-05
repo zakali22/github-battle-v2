@@ -16,7 +16,10 @@ const fetchUserRepos = (username) => {
     return fetch(endpoint, {mode: "cors"})
         .then(res => res.json())
         .then(data => {
-            if(data.message === 'Not Found') throw new Error('Error ' + data.message)
+            if(data.message) {
+                if(data.message === "Not Found") throw new Error(`User ${username}'s repo has not been found`)
+                throw new Error('Error ' + error.message)
+            } 
             return data
         })
 }
@@ -41,7 +44,10 @@ const fetchUserProfile = (username) => {
     return fetch(endpoint, {mode: "cors"})
         .then(res => res.json())
         .then(data => {
-            if(data.message === 'Not Found') throw new Error('Error ' + data.message)
+            if(data.message) {
+                if(data.message === "Not Found") throw new Error(`User ${username} has not been found`)
+                throw new Error('Error ' + error.message)
+            } 
             return data
         })
 }

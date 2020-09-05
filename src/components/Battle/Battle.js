@@ -12,10 +12,12 @@ class Battle extends React.Component {
             playerData: {
                 playerOne: null,
                 playerTwo: null
-            } 
+            },
+            error: ""
         }
         this.handleBattle = this.handleBattle.bind(this)
         this.handleReset = this.handleReset.bind(this)
+        this.handleClearUserNotFound = this.handleClearUserNotFound.bind(this)
     }
 
     handleBattle(players){
@@ -33,6 +35,11 @@ class Battle extends React.Component {
                     })
                 })
             })
+            .catch(error => {
+                this.setState({
+                    error: error.message
+                })
+            })
         
     }
 
@@ -46,6 +53,12 @@ class Battle extends React.Component {
         })
     }
 
+    handleClearUserNotFound(){
+        this.setState({
+            error: ""
+        })
+    }
+
     render(){
         if(this.state.battle){
             return <BattleResults players={this.state.playerData} resetPlayerBattle={this.handleReset}/>
@@ -53,7 +66,7 @@ class Battle extends React.Component {
         return (
             <React.Fragment>
                 <Instruction /> 
-                <Player handleBattle={this.handleBattle}/>
+                <Player handleBattle={this.handleBattle} error={this.state.error} clearUserNotFoundError={this.handleClearUserNotFound}/>
             </React.Fragment>
         )
     }

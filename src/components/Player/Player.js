@@ -34,7 +34,9 @@ class Player extends React.Component {
                 ...state.players,
                 [player]: null
             }
-        }))
+        }), () => {
+            this.props.clearUserNotFoundError()
+        })
     }
 
     render(){
@@ -45,6 +47,7 @@ class Player extends React.Component {
                     {this.state.players['playerOne'] ? <PlayerReview clearUser={() => this.handleUserClearing('playerOne')} username={this.state.players['playerOne']}/> : <PlayerInput label="Player One" submitPlayer={(username) => this.handlePlayerSubmission(username, "playerOne")}/>}
                     {this.state.players['playerTwo'] ? <PlayerReview clearUser={() => this.handleUserClearing('playerTwo')} username={this.state.players['playerTwo']} /> : <PlayerInput label="Player Two" submitPlayer={(username) => this.handlePlayerSubmission(username, "playerTwo")} />}
                 </div>
+                {this.props.error && <p className="error">{this.props.error}</p>}
                 {this.state.players.playerOne && this.state.players.playerTwo && <button onClick={() => this.props.handleBattle(this.state.players)} className="player__btn btn btn--primary">Battle</button>}
             </div>
         )
@@ -52,7 +55,9 @@ class Player extends React.Component {
 }
 
 Player.propTypes = {
-    handleBattle: PropTypes.func.isRequired
+    handleBattle: PropTypes.func.isRequired,
+    error: PropTypes.string.isRequired,
+    clearUserNotFoundError: PropTypes.func.isRequired
 }
 
 export default Player
