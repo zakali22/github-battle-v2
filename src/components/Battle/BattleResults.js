@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Tooltip from "../Tooltip/Tooltip"
 import {FaUserAlt, FaCompass, FaBriefcase, FaUsers, FaUserFriends, FaCode} from "react-icons/fa"
 
 
@@ -19,14 +20,18 @@ const BattleResults = ({players, resetPlayerBattle}) => {
                                     <FaUserAlt size={22} color="rgb(239, 115, 115)"/>
                                     <p className="h5">{players[player].name}</p>
                                 </div>
-                                <div className="battle-result__listing-item">
-                                    <FaCompass size={22} color="rgb(144, 116, 255)"/>
-                                    <p className="h5">{players[player].location}</p>
-                                </div>
-                                <div className="battle-result__listing-item">
-                                    <FaBriefcase size={22} color="rgb(121, 85, 72)"/>
-                                    <p className="h5">{players[player].company}</p>
-                                </div>
+                                <Tooltip title="User's location">
+                                    <div className="battle-result__listing-item">
+                                        <FaCompass size={22} color="rgb(144, 116, 255)"/>
+                                        <p className="h5">{players[player].location}</p>
+                                    </div>
+                                </Tooltip>
+                                <Tooltip title="User's company">
+                                    <div className="battle-result__listing-item">
+                                        <FaBriefcase size={22} color="rgb(121, 85, 72)"/>
+                                        <p className="h5">{players[player].company}</p>
+                                    </div>
+                                </Tooltip>
                                 <div className="battle-result__listing-item">
                                     <FaUsers size={22} color="rgb(129, 195, 245)"/>
                                     <p className="h5">{players[player].followers} followers</p>
