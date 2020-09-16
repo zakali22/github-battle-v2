@@ -2,6 +2,7 @@ import React from "react"
 import Instruction from "../Instruction/Instruction"
 import Player from "../Player/Player"
 import BattleResults from "./BattleResults"
+import Loading from "../Loading/Loading"
 import {initBattle} from "../../utils/api"
 
 class Battle extends React.Component {
@@ -13,7 +14,8 @@ class Battle extends React.Component {
                 playerOne: null,
                 playerTwo: null
             },
-            error: ""
+            error: "", 
+            loading: false
         }
         this.handleBattle = this.handleBattle.bind(this)
         this.handleReset = this.handleReset.bind(this)
@@ -22,17 +24,23 @@ class Battle extends React.Component {
 
     handleBattle(players){
         initBattle(players)
-            .then(res => {
-                console.log(res)
+            .then(res => { 
                 this.setState({
-                    playerData: {
-                        playerOne: res[0],
-                        playerTwo: res[1]
-                    }
+                    loading: true
                 }, () => {
-                    this.setState({
-                        battle: true
-                    })
+                    setTimeout(() => {
+                        this.setState({
+                            playerData: {
+                                playerOne: res[0],
+                                playerTwo: res[1]
+                            }
+                        }, () => {
+                            this.setState({
+                                loading: false,
+                                battle: true 
+                            })
+                        })
+                    }, 1500)
                 })
             })
             .catch(error => {
@@ -55,11 +63,12 @@ class Battle extends React.Component {
 
     handleClearUserNotFound(){
         this.setState({
-            error: ""
+            error: "" 
         })
     }
 
     render(){
+        if(this.state.loading) return <Loading text="Battling" /> 
         if(this.state.battle){
             return <BattleResults players={this.state.playerData} resetPlayerBattle={this.handleReset}/>
         }
