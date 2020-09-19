@@ -1,5 +1,4 @@
 import React from "react"
-import withHover from "../HOC/withHover"
 
 const style = {
     tooltipWrapper: {
@@ -20,13 +19,34 @@ const style = {
     }
 }
 
-const Tooltip = ({title, hovering, children}) => {
-    return (
-        <div className="tooltip" style={style.tooltipWrapper}>
-            {hovering && <div style={style.tooltip}>{title}</div>}
-            {children}
-        </div>
-    )
+class Tooltip extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            hovering: false
+        }
+
+        this.mouseOver = this.mouseOver.bind(this)
+        this.mouseLeave = this.mouseLeave.bind(this)
+    }
+    componentDidMount(){
+        console.log(this.props)
+    }
+    mouseOver(){
+        this.setState({ hovering: true })
+    }
+
+    mouseLeave(){
+        this.setState({ hovering: false })
+    }
+
+    render(){
+        return (
+            <div className="tooltip" style={style.tooltipWrapper} onMouseOver={this.mouseOver} onMouseLeave={this.mouseLeave}>
+                {this.props.children(this.state.hovering, style.tooltip, this.props.title)}
+            </div>
+        )
+    }
 }
 
-export default withHover(Tooltip)
+export default Tooltip

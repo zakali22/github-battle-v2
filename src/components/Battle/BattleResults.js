@@ -21,16 +21,26 @@ const BattleResults = ({players, resetPlayerBattle}) => {
                                     <p className="h5">{players[player].name}</p>
                                 </div>
                                 <Tooltip title="User's location">
-                                    <div className="battle-result__listing-item">
-                                        <FaCompass size={22} color="rgb(144, 116, 255)"/>
-                                        <p className="h5">{players[player].location}</p>
-                                    </div>
+                                    {(hovering, style, title) => (
+                                        <>
+                                            {hovering && <div style={style}>{title}</div>}
+                                            <div className="battle-result__listing-item">
+                                                <FaCompass size={22} color="rgb(144, 116, 255)"/>
+                                                <p className="h5">{players[player].location}</p>
+                                            </div>
+                                        </>
+                                    )}
                                 </Tooltip>
                                 <Tooltip title="User's company">
-                                    <div className="battle-result__listing-item">
-                                        <FaBriefcase size={22} color="rgb(121, 85, 72)"/>
-                                        <p className="h5">{players[player].company}</p>
-                                    </div>
+                                {(hovering, style, title) => (
+                                        <>
+                                            {hovering && <div style={style}>{title}</div>}
+                                            <div className="battle-result__listing-item">
+                                                <FaBriefcase size={22} color="rgb(121, 85, 72)"/>
+                                                <p className="h5">{players[player].company}</p>
+                                            </div>
+                                        </>
+                                )}
                                 </Tooltip>
                                 <div className="battle-result__listing-item">
                                     <FaUsers size={22} color="rgb(129, 195, 245)"/>
