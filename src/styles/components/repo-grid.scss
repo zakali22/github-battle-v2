@@ -45,5 +45,12 @@
                 margin-right: 10px;
             }
         }
+
+        &.dark {
+            background: #24282a;
+            .repo-grid__item--headline-text {
+                color: white;
+            }
+        }
     }
 }
