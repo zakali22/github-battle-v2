@@ -20,6 +20,7 @@ class Battle extends React.Component {
         this.handleBattle = this.handleBattle.bind(this)
         this.handleReset = this.handleReset.bind(this)
         this.handleClearUserNotFound = this.handleClearUserNotFound.bind(this)
+        this.renderBattle = this.renderBattle.bind(this)
     }
 
     handleBattle(players){
@@ -67,16 +68,28 @@ class Battle extends React.Component {
         })
     }
 
-    render(){
-        if(this.state.loading) return <Loading text="Battling" /> 
-        if(this.state.battle){
-            return <BattleResults players={this.state.playerData} resetPlayerBattle={this.handleReset}/>
+    renderBattle(){
+        if(this.state.loading){
+            return <Loading text="Battling" /> 
+        } else if(this.state.battle){
+            return (
+                <div className="battle container">
+                    <BattleResults players={this.state.playerData} resetPlayerBattle={this.handleReset}/>
+                </div>
+            )
+        } else {
+            return (
+                <div className="battle container">  
+                    <Instruction /> 
+                    <Player handleBattle={this.handleBattle} error={this.state.error} clearUserNotFoundError={this.handleClearUserNotFound}/>
+                </div>
+            )
         }
+    }
+
+    render(){
         return (
-            <div className="battle container">  
-                <Instruction /> 
-                <Player handleBattle={this.handleBattle} error={this.state.error} clearUserNotFoundError={this.handleClearUserNotFound}/>
-            </div>
+            this.renderBattle()
         )
     }
 }
