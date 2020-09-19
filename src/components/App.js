@@ -1,8 +1,9 @@
 import React from "react"
-import NavBar from "./RepoNavBar/NavBar.js"
 import Battle from "./Battle/Battle"
+import Repo from "./RepoComp/Repo"
 import Layout from "./Layout/Layout"
 import {ThemeProvider} from "../context/ThemeContext"
+import {Route, Switch, BrowserRouter as Router} from "react-router-dom"
 
 class App extends React.Component {
     constructor(props){
@@ -19,14 +20,16 @@ class App extends React.Component {
     }
     render(){
         return (
-            <ThemeProvider value={this.state}>
-                <Layout>
-                    <div className="battle container">  
-                        <Battle />
-                    </div>
-                </Layout>
-            </ThemeProvider>
-
+            <Router> {/* Needs to be the highest wrapper element to pass down props (via context) */}
+                <ThemeProvider value={this.state}>
+                    <Layout>
+                        <Switch>
+                            <Route exact path="/" component={Repo} />
+                            <Route path="/battle" component={Battle} />
+                        </Switch>
+                    </Layout>
+                </ThemeProvider>
+            </Router>
         )
     }
 }

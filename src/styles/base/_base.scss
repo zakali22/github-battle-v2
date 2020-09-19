@@ -47,6 +47,17 @@ li {
     list-style: none;
 }
 
+a {
+    &:hover, &:focus {
+        text-decoration: none;
+        color: inherit;
+    }
+    &:link, &:visited, &:active {
+        text-decoration: none;
+        color: inherit;
+    }
+}
+
 .container {
     max-width: 1700px;
     margin: 0 auto;

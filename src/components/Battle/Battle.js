@@ -73,10 +73,10 @@ class Battle extends React.Component {
             return <BattleResults players={this.state.playerData} resetPlayerBattle={this.handleReset}/>
         }
         return (
-            <React.Fragment>
+            <div className="battle container">  
                 <Instruction /> 
                 <Player handleBattle={this.handleBattle} error={this.state.error} clearUserNotFoundError={this.handleClearUserNotFound}/>
-            </React.Fragment>
+            </div>
         )
     }
 }
