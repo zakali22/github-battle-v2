@@ -1,0 +1,29 @@
+.nav {
+    &.container {
+        padding: 5rem 3rem;
+        max-width: 1200px;
+    }
+
+    display: flex;
+    justify-content: space-between;
+
+    .nav__links {
+        display: flex;
+        .nav__link {
+            &:not(:last-of-type){
+                margin-right: 1.5rem;
+            }
+            font-weight: 700;
+            cursor: pointer;
+            &.nav__link--active {
+                color: rgb(187, 46, 31);
+            }
+        }
+    }
+    .nav__theme-btn {
+        background: none;
+        border: none;
+        font-size: 3rem;
+        cursor: pointer;
+    }
+}

@@ -40,6 +40,9 @@
                 @media(max-width: 992px){
                     padding: 7rem;
                 }
+                &.dark {
+                    background: rgb(36, 40, 42);
+                }
             }
         }
     }

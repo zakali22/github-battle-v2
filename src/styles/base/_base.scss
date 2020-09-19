@@ -95,3 +95,12 @@ li {
     color: white;
     padding: 1rem 1.5rem;
 }
+
+// Page theme 
+.page-layout {
+    &.dark {
+        color: #DADADA;
+        background: #1c2022;
+        min-height: 100%;
+    }
+}
