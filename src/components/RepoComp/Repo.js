@@ -62,11 +62,11 @@ class NavBar extends React.Component {
 
     render(){
         return (
-            <React.Fragment>
+            <div className="repo container">
                 <NavBarList currNavSelected={this.state.currNavSelected} handleNavSelectedChange={this.handleNavSelectedChange} links={POPULAR_LINKS}/>
                 {this.state.isLoading && <p>Loading</p>} {/* if state.isLoading is true then render <p>Loading</p> */}
                 {this.state.repos[this.state.currNavSelected] && <RepoGrid repos={this.state.repos[this.state.currNavSelected]}/> }
-            </React.Fragment>
+            </div>
         )
     }
 }

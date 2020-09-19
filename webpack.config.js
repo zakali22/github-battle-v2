@@ -6,7 +6,8 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'index__bundle.js'
+        filename: 'index__bundle.js',
+        publicPath: '/'
     },
     mode: 'development',
     module: {
@@ -26,5 +27,8 @@ module.exports = {
                 { from: './src/assets', to: 'public/assets' }
               ]
         })
-    ]
+    ],
+    devServer: {
+        historyApiFallback: true
+    }
 }
