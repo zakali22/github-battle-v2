@@ -20,13 +20,17 @@ class NavBar extends React.Component {
 
     
     componentDidMount(){
+        this.setState({
+            isLoading: true
+        })
         fetchRepos(this.state.currNavSelected)
         .then(res => {
             this.setState((state) => ({
                 repos: {
                     ...state.repos,
                     [this.state.currNavSelected]: res
-                }
+                }, 
+                isLoading: false
             }))
         })
     }
