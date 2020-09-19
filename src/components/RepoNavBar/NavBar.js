@@ -1,7 +1,7 @@
 import React from "react"
 import NavBarList from "./NavBarList"
 import RepoGrid from "../RepoGrid/RepoGrid";
-
+import Loading from "../Loading/Loading"
 import { fetchRepos } from "../../utils/api"
 
 const POPULAR_LINKS = ['All', 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'];
@@ -64,7 +64,7 @@ class NavBar extends React.Component {
         return (
             <React.Fragment>
                 <NavBarList currNavSelected={this.state.currNavSelected} handleNavSelectedChange={this.handleNavSelectedChange} links={POPULAR_LINKS}/>
-                {this.state.isLoading && <p>Loading</p>} {/* if state.isLoading is true then render <p>Loading</p> */}
+                {this.state.isLoading && <Loading text="Fetch repos"/>} {/* if state.isLoading is true then render <p>Loading</p> */}
                 {this.state.repos[this.state.currNavSelected] && <RepoGrid repos={this.state.repos[this.state.currNavSelected]}/> }
             </React.Fragment>
         )
