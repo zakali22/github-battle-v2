@@ -104,5 +104,19 @@
             border: none;
             cursor: pointer;
         }
+
+        &.dark {
+            background: #24282a;
+            .player__preview-name {
+                color: white;
+            }
+            .player__preview-button {
+                svg {
+                    path {
+                        fill:white
+                    }
+                }
+            }
+        }
     }
 }
