@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { FaUser, FaStar, FaCodeBranch, FaExclamationTriangle } from "react-icons/fa"
 import {ThemeConsumer} from "../../context/ThemeContext"
 
-const RepoGrid = ({repos}) => {
+const RepoGrid = ({repos, sort}) => {
     return (
         <ThemeConsumer>
             {({theme}) => (
@@ -11,7 +11,7 @@ const RepoGrid = ({repos}) => {
                     {repos.map((repo, id) => {
                         return (
                             <li key={id} className={`repo-grid__item ${theme === 'dark' ? theme : ''}`}>
-                                <p>#{id+1}</p>
+                                {sort === 'asc' ? (<p>#{id+1}</p>) : (<p>#{repos.length - id}</p>)}
                                 <img src={repo.owner.avatar_url} alt="Repo" className="repo-grid__item--logo" />
                                 <p className="repo-grid__item--headline-text">{repo.name}</p>
                                 <div className="repo-grid__item--desc">
@@ -30,7 +30,8 @@ const RepoGrid = ({repos}) => {
 }
 
 RepoGrid.propTypes = {
-    repos: PropTypes.array.isRequired
+    repos: PropTypes.array.isRequired,
+    sort: PropTypes.string.isRequired
 }
 
 export default RepoGrid
