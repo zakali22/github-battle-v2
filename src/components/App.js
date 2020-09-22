@@ -1,5 +1,6 @@
 import React from "react"
 import Battle from "./Battle/Battle"
+import BattleResults from "./Battle/BattleResults"
 import Repo from "./RepoComp/Repo"
 import Layout from "./Layout/Layout"
 import {ThemeProvider} from "../context/ThemeContext"
@@ -25,7 +26,8 @@ class App extends React.Component {
                     <Layout>
                         <Switch>
                             <Route exact path="/" component={Repo} />
-                            <Route path="/battle" component={Battle} />
+                            <Route exact path="/battle" component={Battle} />
+                            <Route path="/battle/result" component={BattleResults}/>
                         </Switch>
                     </Layout>
                 </ThemeProvider>

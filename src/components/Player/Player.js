@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import PlayerInput from "./PlayerInput"
 import PlayerReview from "./PlayerReview"
 import {fetchUser} from "../../utils/api"
+import {Link} from "react-router-dom"
 
 class Player extends React.Component {
     constructor(props){
@@ -48,14 +49,13 @@ class Player extends React.Component {
                     {this.state.players['playerTwo'] ? <PlayerReview clearUser={() => this.handleUserClearing('playerTwo')} username={this.state.players['playerTwo']} /> : <PlayerInput label="Player Two" submitPlayer={(username) => this.handlePlayerSubmission(username, "playerTwo")} />}
                 </div>
                 {this.props.error && <p className="error">{this.props.error}</p>}
-                {this.state.players.playerOne && this.state.players.playerTwo && <button onClick={() => this.props.handleBattle(this.state.players)} className="player__btn btn btn--primary">Battle</button>}
+                {this.state.players.playerOne && this.state.players.playerTwo && <Link to={`/battle/result?playerOne=${this.state.players.playerOne}&playerTwo=${this.state.players.playerTwo}`} className="player__btn btn btn--primary">Battle</Link>}
             </div>
         )
     }
 }
 
 Player.propTypes = {
-    handleBattle: PropTypes.func.isRequired,
     error: PropTypes.string.isRequired,
     clearUserNotFoundError: PropTypes.func.isRequired
 }
