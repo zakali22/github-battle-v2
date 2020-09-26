@@ -2,6 +2,7 @@ import React from "react"
 import Battle from "./Battle/Battle"
 import BattleResults from "./Battle/BattleResults"
 import Repo from "./RepoComp/Repo"
+import NotFound from "./NotFound/NotFound"
 import Layout from "./Layout/Layout"
 import {ThemeProvider} from "../context/ThemeContext"
 import {Route, Switch, BrowserRouter as Router} from "react-router-dom"
@@ -28,6 +29,7 @@ class App extends React.Component {
                             <Route exact path="/" component={Repo} />
                             <Route exact path="/battle" component={Battle} />
                             <Route path="/battle/result" component={BattleResults}/>
+                            <Route component={NotFound} />
                         </Switch>
                     </Layout>
                 </ThemeProvider>
