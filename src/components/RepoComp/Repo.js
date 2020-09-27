@@ -1,9 +1,11 @@
-import React from "react"
+import React, {Suspense, lazy} from "react"
 import NavBarList from "./NavBarList"
-import RepoGrid from "../RepoGrid/RepoGrid";
+// import RepoGrid from "../RepoGrid/RepoGrid";
 import Loading from "../Loading/Loading"
 import { fetchRepos } from "../../utils/api"
 import { sortRepos } from "../../utils/sorting"
+
+const RepoGrid = lazy(() => import('../RepoGrid/RepoGrid'))
 
 const POPULAR_LINKS = ['All', 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'];
 
@@ -115,7 +117,9 @@ class NavBar extends React.Component {
                             <option value="asc">Asc</option>
                             <option value="desc">Desc</option>
                         </select>
-                        <RepoGrid repos={this.state.repos[this.state.currNavSelected]} sort={this.state.sort}/> 
+                        <Suspense fallback={<Loading />}>
+                            <RepoGrid repos={this.state.repos[this.state.currNavSelected]} sort={this.state.sort}/> 
+                        </Suspense>
                     </div>
                     )
                 }

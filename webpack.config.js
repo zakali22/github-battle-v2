@@ -9,7 +9,7 @@ module.exports = {
         filename: 'index__bundle.js',
         publicPath: '/'
     },
-    mode: 'development',
+    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     module: {
         rules: [
             {test: /\.(js)$/, use: 'babel-loader'},
@@ -24,7 +24,8 @@ module.exports = {
         }),
         new CopyWebpackPlugin({
             patterns: [
-                { from: './src/assets', to: 'public/assets' }
+                { from: './src/assets', to: 'public/assets' }, 
+                {from: '_redirects'}
               ]
         })
     ],
