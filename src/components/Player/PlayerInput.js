@@ -1,9 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
-import {ThemeConsumer} from "../../context/ThemeContext"
+import ThemeContext from "../../context/ThemeContext"
 
 function PlayerInput(props){
     const [username, setUsername] = React.useState('')
+    const [theme, toggleTheme] = React.useContext(ThemeContext)
 
     // constructor(props){
     //     super(props);
@@ -30,17 +31,13 @@ function PlayerInput(props){
 
 
     return (
-        <ThemeConsumer>
-            {({theme}) => (
-                <form className="player__form" onSubmit={handleSubmit}>
-                    <label className="player__form-label h5" htmlFor="username">{props.label}</label>
-                    <div className="player__form-row">
-                        <input className={`${theme === 'dark' ? theme : ''} player__form-input`} placeholder="github username" id="username" value={username} onChange={handleInputChange}  />
-                        <button className={`${!username ? 'disabled' : ''} player__form-button btn btn--primary ${theme === 'dark' ? theme : ''}`} type="submit" disabled={!username}>Submit</button>
-                    </div>
-                </form>
-            )}
-        </ThemeConsumer>
+        <form className="player__form" onSubmit={handleSubmit}>
+            <label className="player__form-label h5" htmlFor="username">{props.label}</label>
+            <div className="player__form-row">
+                <input className={`${theme === 'dark' ? theme : ''} player__form-input`} placeholder="github username" id="username" value={username} onChange={handleInputChange}  />
+                <button className={`${!username ? 'disabled' : ''} player__form-button btn btn--primary ${theme === 'dark' ? theme : ''}`} type="submit" disabled={!username}>Submit</button>
+            </div>
+        </form>
     )
 }
 

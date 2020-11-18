@@ -5,7 +5,7 @@ import React, {Suspense, lazy} from "react"
 import Loading from "./Loading/Loading"
 import NotFound from "./NotFound/NotFound"
 import Layout from "./Layout/Layout"
-import {ThemeProvider} from "../context/ThemeContext"
+import ThemeContext from "../context/ThemeContext"
 import {Route, Switch, BrowserRouter as Router} from "react-router-dom"
 
 const Battle = lazy(() => import('./Battle/Battle'))
@@ -27,7 +27,7 @@ function App() {
     
     return (
         <Router> {/* Needs to be the highest wrapper element to pass down props (via context) */}
-            <ThemeProvider value={{theme, toggleTheme}}>
+            <ThemeContext.Provider value={{theme, toggleTheme}}>
                 <Layout>
                     <Suspense fallback={<Loading />}>
                         <Switch>
@@ -37,7 +37,7 @@ function App() {
                         </Switch>
                     </Suspense>
                 </Layout>
-            </ThemeProvider>
+            </ThemeContext.Provider>
         </Router>
     )
     

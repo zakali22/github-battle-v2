@@ -1,17 +1,15 @@
 import React from "react"
 import Nav from "../Nav/NavBar"
-import {ThemeConsumer} from "../../context/ThemeContext"
+import ThemeContext from "../../context/ThemeContext"
 
 function Layout({children}){ 
+    const [theme, toggleTheme] = React.useContext(ThemeContext)
+
     return (
-        <ThemeConsumer>
-            {({theme}) => (
-                <div className={`${theme === 'dark' ? theme : ''} page-layout`}>
-                    <Nav />
-                    {children}
-                </div>
-            )}
-        </ThemeConsumer>
+        <div className={`${theme === 'dark' ? theme : ''} page-layout`}>
+            <Nav />
+            {children}
+        </div>
     )
 }
 
