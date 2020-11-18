@@ -75,6 +75,7 @@ export const initBattle = (players) => {
     const {playerOne, playerTwo} = players;
     return Promise.all([getUserData(playerOne), getUserData(playerTwo)])
         .then(res => {
+            console.log(res)
             return sortPlayers(res)
         })
 }
