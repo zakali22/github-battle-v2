@@ -2,7 +2,7 @@ import React from "react"
 import Nav from "../Nav/NavBar"
 import {ThemeConsumer} from "../../context/ThemeContext"
 
-const Layout = ({children}) => { 
+function Layout({children}){ 
     return (
         <ThemeConsumer>
             {({theme}) => (

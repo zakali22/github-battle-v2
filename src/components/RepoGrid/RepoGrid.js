@@ -4,11 +4,14 @@ import { FaUser, FaStar, FaCodeBranch, FaExclamationTriangle } from "react-icons
 import {ThemeConsumer} from "../../context/ThemeContext"
 
 const RepoGrid = ({repos, sort}) => {
+    console.log(sort)
+    console.log(repos)
     return (
         <ThemeConsumer>
             {({theme}) => (
                 <ul className="repo-grid">
                     {repos.map((repo, id) => {
+                        console.log(repo)
                         return (
                             <li key={id} className={`repo-grid__item ${theme === 'dark' ? theme : ''}`}>
                                 {sort === 'asc' ? (<p>#{id+1}</p>) : (<p>#{repos.length - id}</p>)}
