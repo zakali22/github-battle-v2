@@ -1,22 +1,20 @@
 import React from "react"
 import PropTypes from "prop-types"
-import {ThemeConsumer} from "../../context/ThemeContext"
+import ThemeContext from "../../context/ThemeContext"
 
 const NavBarList = ({links, currNavSelected, handleNavSelectedChange}) => {
+    const {theme, toggleTheme} = React.useContext(ThemeContext)
+
     return (
-        <ThemeConsumer>
-            {({theme}) => (
-                <ul className={`navbar ${theme === 'dark' ? theme : ''}`}>
-                    {links.map((link, id) => {
-                        return (
-                            <li key={id}>
-                                <button className={`${currNavSelected === link ? 'active' : null}`} onClick={() => handleNavSelectedChange(link)}>{link}</button>
-                            </li>
-                        )
-                    })}
-                </ul>
-            )}
-        </ThemeConsumer>
+        <ul className={`navbar ${theme === 'dark' ? theme : ''}`}>
+            {links.map((link, id) => {
+                return (
+                    <li key={id}>
+                        <button className={`${currNavSelected === link ? 'active' : null}`} onClick={() => handleNavSelectedChange(link)}>{link}</button>
+                    </li>
+                )
+            })}
+        </ul>
     )
 }
 

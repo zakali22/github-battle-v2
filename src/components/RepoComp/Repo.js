@@ -4,6 +4,7 @@ import NavBarList from "./NavBarList"
 import Loading from "../Loading/Loading"
 import { fetchRepos } from "../../utils/api"
 import { sortRepos } from "../../utils/sorting"
+import { useState, useReducer } from "reinspect"
 
 const RepoGrid = lazy(() => import('../RepoGrid/RepoGrid'))
 
@@ -22,110 +23,120 @@ const style = {
     }
 }
 
-class NavBar extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            currNavSelected: 'All',
-            repos: {}, // In order to cache the previously fetched
-            error: null,
-            isLoading: false,
-            sort: 'asc'
-        }
-        this.handleNavSelectedChange = this.handleNavSelectedChange.bind(this)
-        this.handleOptionChange = this.handleOptionChange.bind(this)
-        this.sortRepos = this.sortRepos.bind(this)
-    }
+const initialState = {
+    currNavSelected: 'All',
+    repos: {}, // In order to cache the previously fetched
+    error: null,
+    isLoading: false,
+    sort: 'asc'
+}
 
-    
-    componentDidMount(){
-        this.setState({
-            isLoading: true
-        })
-        fetchRepos(this.state.currNavSelected)
-        .then(res => {
-            this.setState((state) => ({
+function repoReducer(state, action){
+    switch(action.type){
+        case 'FETCH_REPOS_LOADING':
+            return {
+                ...state, 
+                isLoading: action.payload
+            }
+        case 'FETCH_REPOS_SUCCESS':
+            return {
+                ...state,
+                isLoading: false, 
                 repos: {
                     ...state.repos,
-                    [this.state.currNavSelected]: res
-                }, 
+                    [action.payload.currNavSelected]: action.payload.data
+                }
+            }
+        case 'FETCH_REPOS_ERROR':
+            return {
+                ...state,
+                error: action.payload,
                 isLoading: false
-            }), () => {
-                this.sortRepos(this.state.sort)
-            })
-        })
+            }
+        case 'SET_CURRENTNAV':
+            return {
+                ...state,
+                currNavSelected: action.payload,
+                isLoading: true,
+                sort: 'asc',
+                repos: {}
+            }
+        case 'SET_SORT':
+            return {
+                ...state,
+                sort: action.payload
+            }
+        case 'SET_SORTED_REPOS':
+            return {
+                ...state,
+                repos: {
+                    ...state.repos,
+                    [action.payload.currNavSelected]: action.payload.sortedRepoArr
+                }
+            }
+        default: 
+            return state;
     }
+}
 
-    handleNavSelectedChange(currNavSelected) {
-        this.setState({
-            currNavSelected,
-            isLoading: true,
-            repos: {}, 
-            sort: 'asc'
-        })
+function NavBar() {
+    const [state, dispatch] = useReducer(repoReducer, initialState, null, "repos")
 
-        if(!this.state.repos[currNavSelected]){ // Only refetch if the language property doesn't exist on the repos object, if it does then don't refetch
-            fetchRepos(currNavSelected)
+    React.useEffect(() => {
+        dispatch({type: 'FETCH_REPOS_LOADING', payload: true})
+        fetchRepos(state.currNavSelected)
             .then(res => {
-                console.log(res)
-                this.setState((state) => ({ // If we want to reuse part of the state, or a property within an object on the state, we should return a function (state) => ({})
-                    isLoading: false,
-                    repos: {
-                        ...state.repos,
-                        [currNavSelected]: res
-                    }
-                }), () => {
-                    this.sortRepos(this.state.sort)
-                })
+                dispatch({type: 'FETCH_REPOS_SUCCESS', payload: {currNavSelected: state.currNavSelected, data: res}})
+                sortingRepos(state.sort)
             })
-            .catch(error => {
-                console.log(error)
-                this.setState({
-                    isLoading: false, 
-                    error
+    }, [])
+
+    const handleNavSelectedChange = (currNavSelected) => {
+        dispatch({type: 'SET_CURRENTNAV', payload: currNavSelected})
+
+        if(!state.repos[currNavSelected]){ // Only refetch if the language property doesn't exist on the repos object, if it does then don't refetch
+            fetchRepos(currNavSelected)
+                .then(res => {
+                    dispatch({type: 'FETCH_REPOS_SUCCESS', payload: {currNavSelected: currNavSelected, data: res}}) 
+                    sortingRepos(state.sort)
+
                 })
-            }) 
+                .catch(error => {
+                    dispatch({type: 'FETCH_REPOS_ERROR', payload: error})
+                }) 
         }
     }
 
-    handleOptionChange(e){
-        this.setState({
-            sort: e.target.value
-        }, () => {
-            this.sortRepos(this.state.sort)
-        })
+    const handleOptionChange = (e) => {
+        dispatch({type: 'SET_SORT', payload: e.target.value})
+        sortingRepos(e.target.value)
     }
 
-    sortRepos(sort){
-        const sortedRepoArr = sortRepos(sort, this.state.repos[this.state.currNavSelected])
-        this.setState((state) => ({
-            repos: {
-                ...state.repos,
-                [state.currNavSelected]: sortedRepoArr
+    const sortingRepos = (sort) => {
+        const sortedRepoArr = sortRepos(sort, state.repos[state.currNavSelected])
+
+        dispatch({type: 'SET_SORTED_REPOS', payload: {currNavSelected: state.currNavSelected, sortedRepoArr}})
+    }
+
+    return (
+        <div className="repo container">
+            <NavBarList currNavSelected={state.currNavSelected} handleNavSelectedChange={handleNavSelectedChange} links={POPULAR_LINKS}/>
+            {state.isLoading && <Loading text="Fetch repos"/>} {/* if state.isLoading is true then render <p>Loading</p> */}
+            {state.repos[state.currNavSelected] && (
+                <div className="repo-results">
+                    <select style={style.select} onChange={handleOptionChange}>
+                        <option value="asc">Asc</option>
+                        <option value="desc">Desc</option>
+                    </select>
+                    <Suspense fallback={<Loading />}>
+                        <RepoGrid repos={state.repos[state.currNavSelected]} sort={state.sort}/> 
+                    </Suspense>
+                </div>
+                )
             }
-        }))
-    }
+        </div>
+    )
 
-    render(){
-        return (
-            <div className="repo container">
-                <NavBarList currNavSelected={this.state.currNavSelected} handleNavSelectedChange={this.handleNavSelectedChange} links={POPULAR_LINKS}/>
-                {this.state.isLoading && <Loading text="Fetch repos"/>} {/* if state.isLoading is true then render <p>Loading</p> */}
-                {this.state.repos[this.state.currNavSelected] && (
-                    <div className="repo-results">
-                        <select style={style.select} onChange={this.handleOptionChange}>
-                            <option value="asc">Asc</option>
-                            <option value="desc">Desc</option>
-                        </select>
-                        <Suspense fallback={<Loading />}>
-                            <RepoGrid repos={this.state.repos[this.state.currNavSelected]} sort={this.state.sort}/> 
-                        </Suspense>
-                    </div>
-                    )
-                }
-            </div>
-        )
-    }
 }
 
 

@@ -1,43 +1,44 @@
 import React from "react"
 import PropTypes from "prop-types"
-import {ThemeConsumer} from "../../context/ThemeContext"
+import ThemeContext from "../../context/ThemeContext"
 
-class PlayerInput extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            username: ''
-        }
-        this.handleInputChange = this.handleInputChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-    }
+function PlayerInput(props){
+    const [username, setUsername] = React.useState('')
+    const {theme, toggleTheme} = React.useContext(ThemeContext)
 
-    handleSubmit(event){
+    // constructor(props){
+    //     super(props);
+    //     this.state = {
+    //         username: ''
+    //     }
+    //     this.handleInputChange = this.handleInputChange.bind(this)
+    //     this.handleSubmit = this.handleSubmit.bind(this)
+    // }
+
+    const handleSubmit = (event) => {
         event.preventDefault(); // Stop default browser functionality
-        this.props.submitPlayer(this.state.username);
+        // this.props.submitPlayer(this.state.username);
+        props.submitPlayer(username)
     }
 
-    handleInputChange(event){
-        this.setState({ // Use this if you're not using the state values themselves
-            username: event.target.value
-        })
+    const handleInputChange = (event) => {
+        // this.setState({ // Use this if you're not using the state values themselves
+        //     username: event.target.value
+        // })
+
+        setUsername(event.target.value)
     }
 
-    render(){
-        return (
-            <ThemeConsumer>
-                {({theme}) => (
-                    <form className="player__form" onSubmit={this.handleSubmit}>
-                        <label className="player__form-label h5" htmlFor="username">{this.props.label}</label>
-                        <div className="player__form-row">
-                            <input className={`${theme === 'dark' ? theme : ''} player__form-input`} placeholder="github username" id="username" value={this.state.username} onChange={this.handleInputChange}  />
-                            <button className={`${!this.state.username ? 'disabled' : ''} player__form-button btn btn--primary ${theme === 'dark' ? theme : ''}`} type="submit" disabled={!this.state.username}>Submit</button>
-                        </div>
-                    </form>
-                )}
-            </ThemeConsumer>
-        )
-    }
+
+    return (
+        <form className="player__form" onSubmit={handleSubmit}>
+            <label className="player__form-label h5" htmlFor="username">{props.label}</label>
+            <div className="player__form-row">
+                <input className={`${theme === 'dark' ? theme : ''} player__form-input`} placeholder="github username" id="username" value={username} onChange={handleInputChange}  />
+                <button className={`${!username ? 'disabled' : ''} player__form-button btn btn--primary ${theme === 'dark' ? theme : ''}`} type="submit" disabled={!username}>Submit</button>
+            </div>
+        </form>
+    )
 }
 
 PlayerInput.propTypes = {
