@@ -4,7 +4,7 @@ import { FaUser, FaStar, FaCodeBranch, FaExclamationTriangle } from "react-icons
 import ThemeContext from "../../context/ThemeContext"
 
 const RepoGrid = ({repos, sort}) => {
-    const [theme, toggleTheme] = React.useContext(ThemeContext)
+    const {theme, toggleTheme} = React.useContext(ThemeContext)
 
     return (
         <ul className="repo-grid">

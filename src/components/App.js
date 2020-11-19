@@ -6,24 +6,16 @@ import Loading from "./Loading/Loading"
 import NotFound from "./NotFound/NotFound"
 import Layout from "./Layout/Layout"
 import ThemeContext from "../context/ThemeContext"
+import useTheme from "./Hooks/useTheme"
 import {Route, Switch, BrowserRouter as Router} from "react-router-dom"
 
 const Battle = lazy(() => import('./Battle/Battle'))
 const BattleResults = lazy(() => import('./Battle/BattleResults'))
 const Repo = lazy(() => import('./RepoComp/Repo'))
 
-function useTheme(props){
-    const [theme, setTheme] = React.useState(props)
-
-    const toggleTheme = () => {
-        setTheme((theme) => theme === 'light' ? 'dark' : 'light')
-    }
-
-    return [theme, toggleTheme]
-}
-
 function App() {
-    const [theme, toggleTheme] = useTheme('light')
+    const {theme, toggleTheme} = useTheme('light')
+    console.log(theme, toggleTheme)
     
     return (
         <Router> {/* Needs to be the highest wrapper element to pass down props (via context) */}

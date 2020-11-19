@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import ThemeContext from "../../context/ThemeContext"
 
 const NavBarList = ({links, currNavSelected, handleNavSelectedChange}) => {
-    const [theme, toggleTheme] = React.useContext(ThemeContext)
+    const {theme, toggleTheme} = React.useContext(ThemeContext)
 
     return (
         <ul className={`navbar ${theme === 'dark' ? theme : ''}`}>

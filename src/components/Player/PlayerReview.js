@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import ThemeContext from "../../context/ThemeContext"
 
 const PlayerReview = ({username, clearUser}) => {
-    const [theme, toggleTheme] = React.useContext(ThemeContext)
+    const {theme, toggleTheme} = React.useContext(ThemeContext)
 
     return (
         <div className={`player__preview ${theme === 'dark' ? theme : ''}`}>

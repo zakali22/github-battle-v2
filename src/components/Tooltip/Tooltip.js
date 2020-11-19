@@ -19,34 +19,23 @@ const style = {
     }
 }
 
-class Tooltip extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            hovering: false
-        }
+function Tooltip(props) {
+    const [hovering, setHovering] = React.useState(false)
 
-        this.mouseOver = this.mouseOver.bind(this)
-        this.mouseLeave = this.mouseLeave.bind(this)
-    }
-    componentDidMount(){
-        console.log(this.props)
-    }
-    mouseOver(){
-        this.setState({ hovering: true })
+    const mouseOver = () => {
+        setHovering(true)
     }
 
-    mouseLeave(){
-        this.setState({ hovering: false })
+    const mouseLeave = () => {
+        setHovering(false)
     }
 
-    render(){
-        return (
-            <div className="tooltip" style={style.tooltipWrapper} onMouseOver={this.mouseOver} onMouseLeave={this.mouseLeave}>
-                {this.props.children(this.state.hovering, style.tooltip, this.props.title)}
-            </div>
-        )
-    }
+    return (
+        <div className="tooltip" style={style.tooltipWrapper} onMouseOver={mouseOver} onMouseLeave={mouseLeave}>
+            {props.children(hovering, style.tooltip, props.title)}
+        </div>
+    )
+
 }
 
 export default Tooltip

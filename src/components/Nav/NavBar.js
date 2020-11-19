@@ -3,7 +3,7 @@ import { Link, withRouter } from "react-router-dom"
 import ThemeContext from "../../context/ThemeContext"
 
  const NavBar = ({history, location, match}) => {
-    const [theme, toggleTheme] = React.useContext(ThemeContext)
+    const {theme, toggleTheme} = React.useContext(ThemeContext)
 
     return (
         <nav className="nav container">

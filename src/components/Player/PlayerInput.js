@@ -4,7 +4,7 @@ import ThemeContext from "../../context/ThemeContext"
 
 function PlayerInput(props){
     const [username, setUsername] = React.useState('')
-    const [theme, toggleTheme] = React.useContext(ThemeContext)
+    const {theme, toggleTheme} = React.useContext(ThemeContext)
 
     // constructor(props){
     //     super(props);

@@ -4,7 +4,7 @@ import {FaFighterJet, FaTrophy} from "react-icons/fa"
 import ThemeContext from "../../context/ThemeContext"
 
 function Instruction(){
-    const [theme, toggleTheme] = React.useContext(ThemeContext)
+    const {theme, toggleTheme} = React.useContext(ThemeContext)
 
     return (
         <div className="battle__instruction">
